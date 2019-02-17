@@ -10,9 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "cookie": "^0.3.1",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
+    "hbs": "^4.0.1",
+    "mongoose": "^5.4.13",
     "nonce": "^1.0.4",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",

@@ -1,0 +1,51 @@
+#popup {
+    position: relative;
+    width: 600px;
+    height: fit-content;
+    border: 1px solid black;
+}
+.right {
+    float: right;
+}
+img {
+    width: 200px;
+}
+#drop-area {
+    width: inherit;
+    height: 400px;
+    border: 2px dashed black;
+}
+.p-8 {
+    padding: 8px;
+}
+.m-8 {
+    margin: 8px;
+}
+.secondary-color {
+    background-color: #ddd;
+}
+.title {
+    width: fit-content;
+}
+.close {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    font-size: 32px;
+    cursor: pointer;
+}
+#drop-area {
+    text-align: center;
+}
+#fileElement {
+    display: none;
+}
+#upload {
+    font-size: 30px;
+}
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%)
+}

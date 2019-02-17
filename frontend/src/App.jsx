@@ -1,63 +1,75 @@
 import React, {Component} from 'react'
-import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
-import Header from './components/Header'
-import HomePage from './components/HomePage'
-import Login from './components/Login'
-import Register from './components/Register'
-import Profile from './components/Profile'
-import Article from './components/Article'
-import Settings from './components/Settings'
-import Editor from './components/Editor'
-import Storage from './Storage'
+import './app.css'
 class App extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            c_user: null,
-            isUpdated: false,
-            isLoaded: false
-        }
-        this.onLoad = (c_user) => {
-            this.setState({c_user, isUpdated: true})
-        }
-        
+            assets: null
+        } 
+        this.handleFile = e => {
+            console.log("hihihi")
+            console.log(e.target.files)
+            const shop = localStorage.getItem('shop')
+            if(shop) {
+                const regex = /image\/*/
+                fetch(`/images?shop=${shop}`).then(response=> response.json()).then(data=> {
+                    data = data.assets.filter(val=> regex.test(val.content_type))
+                    this.setState({assets: data})
+                })
+            }   
+        }       
     }
-    componentDidMount() {
-        const token = Storage.get()
-        if(token) {
-            let req = new XMLHttpRequest()
-            req.open('GET', " /api/user", true)
-            req.setRequestHeader("Authorization", `Token ${token}`)
-            req.onload = () => {
-                let {user} = JSON.parse(req.response)
-                if(user) this.setState({c_user: user, isLoaded: true})
-            }
-            req.send()
-        } else this.setState({isLoaded: true})
-    }
-    componentDidUpdate(preprops) {
-        if(this.state.isUpdated) this.setState({isUpdated: false})
+    renderImage() {
+        console.log('image')
+        const rows = []
+        const {assets} = this.state
+        if(assets) assets.forEach((image, index)=> {
+            rows.push(<img key= {index} src={image.public_url} width="100%" alt="xx"/>)
+        })
+        return rows
     }
     render() {
-        if(this.state.isUpdated) return <Router><Redirect to="/"/></Router> 
+        console.log('render')
         return (
-            <Router>
-                <div>
-                    <Header c_user={this.state.c_user}/>
-                    <Switch>
-                        <Route path='/' exact render={()=>(<HomePage c_user={this.state.c_user}/>)}/>
-                        <Route path='/login' render={()=>(<Login onLogin={this.onLoad}/>)}/>
-                        <Route path='/register' render={()=>(<Register onLogin={this.onLoad}/>)}/>
-                        <Route path='/settings' render={()=>(<Settings c_user={this.state.c_user} onUpdate={this.onLoad} isLoaded={this.state.isLoaded}/>)}/>
-                        <Route path='/editor/:slug' render={({match})=>(<Editor slug={match.params.slug}/>)}/>
-                        <Route path='/editor' render={()=>(<Editor />)}/>
-                        <Route path='/article/:slug' render={({match})=>(<Article slug={match.params.slug} c_user={this.state.c_user}/>)}/>
-                        <Route path='/@:username' render={({match})=>(<Profile username={match.params.username} c_user={this.state.c_user}/>)}/>
-                    </Switch>
+           <div id='popup'>
+                <h3>Select Image <span className="close">&times;</span></h3>
+                <div className = "p-8">
+                    <span className="title secondary-color p-8">My Images </span>
+                    <span><button className="right">Upload</button></span>
                     
                 </div>
-                
-            </Router>
+                <div>
+                    <div className="secondary-color p-8">
+                        <input type="text" placeholder="Search..."/>
+                        <div className="right">
+                        <label htmlFor="sorting">Sorting </label>
+                            <select name="sorting" id='sorting'>
+                                    <option value="Newest">Newest</option>
+                                    <option value="Oldest">Oldest</option>
+                            </select>
+                            <label>View options </label>
+                            <i className="fas fa-th-large"></i>&nbsp;
+                            <i className="fas fa-th-list"></i>
+                        </div>
+                    </div>
+                    <div id="drop-area">
+                        <form>
+                            <input type="file" id="fileElement" accept="image/*" multiple onChange={this.handleFile}/>
+                            <label id="upload" className="button center" htmlFor="fileElement"><i className="fas fa-upload"></i><br/>Drag and Drop or click here to upload</label>
+                        </form>
+                    </div>
+                    <div className="secondary-color p-8">
+                        <div className="right">
+                            <button>Select</button>
+                            <button>Cancel</button>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div>
+                    {this.renderImage()}
+                </div>       
+           </div>
         )
     }
 }

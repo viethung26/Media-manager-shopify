@@ -10,7 +10,7 @@ const request = require('request-promise')
 const apiKey = process.env.SHOPIFY_API_KEY
 const apiSecret = process.env.SHOPIFY_API_SECRET
 
-const forwardingAddress = "https://119c9196.ngrok.io"
+const forwardingAddress = "https://045b5d27.ngrok.io"
 const path = require('path')
 
 const User = require('mongoose').model('users')
@@ -75,7 +75,7 @@ router.get('/callback', (req, res)=> {
             }).catch(e=> {
                 console.log(e)
             })
-            res.render('index', {shop})
+            res.render('index', {shop, token: accessToken})
             // res.status(200).sendFile(path.join(__dirname, "../public/index.html"))
             // let new_asset = {
             //     asset: {

@@ -1,14 +1,11 @@
 #popup {
     position: relative;
-    width: 600px;
+    width: 800px;
     height: fit-content;
     border: 1px solid black;
 }
 .right {
     float: right;
-}
-img {
-    width: 200px;
 }
 #drop-area {
     width: inherit;
@@ -42,6 +39,10 @@ img {
 }
 #upload {
     font-size: 30px;
+}
+.button {
+    padding: 1px 6px;
+    -webkit-appearance: button;
 }
 .center {
     position: absolute;

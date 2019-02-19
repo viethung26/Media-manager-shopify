@@ -1,0 +1,34 @@
+.image{
+    display: inline-block;
+    position: relative;
+    width: 100px;
+    height: 100px;
+    padding: 4px;
+}
+p {
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.image img {
+    width: 100px;
+}
+.delete {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    visibility: hidden;
+    cursor: pointer;
+}
+.selected {
+    position: absolute;
+    top: 0px;
+    left: 5px;
+}
+.image:hover img {
+    opacity: 0.5;
+}
+.image:hover .delete {
+    visibility: visible;
+}

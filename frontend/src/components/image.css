@@ -1,29 +1,74 @@
 .image{
-    display: inline-block;
     position: relative;
-    width: 100px;
-    height: 100px;
     padding: 4px;
 }
-p {
-    width: 100px;
+.thumbnail {
+    position: relative;
+    border: 1px solid black;
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+}
+.thumbnail img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: auto;
+    transform: translate(-50%,-50%);
+}
+.grid {
+    display: inline-block;
+    width: 80px;
+}
+.list {
+    width: 99%;
+    height: 50px;
+    display: grid;
+    grid-template-columns: 60px 1fr 1fr;
+    grid-gap: 5px 5px;
+}
+.list .thumbnail {
+    height: 50px;
+    width: 50px;
+}
+.list img {
+    height: 50px;
+}
+.title {
+    font-weight: bold;
+}
+.grid .title {
+    width: 80px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    text-align: center;
 }
-.image img {
-    width: 100px;
+.list .title {
+    width: 100%;
+    line-height: 50px;
+}
+.image:hover .title{
+    color: blue;
 }
 .delete {
     position: absolute;
-    top: 0px;
-    right: 5px;
+    top: 10px;
+    right: 10px;
     visibility: hidden;
     cursor: pointer;
 }
+.delete-files {
+    color: red;
+    border: 1px solid red;
+    background-color: white;
+    cursor: pointer;
+}
 .selected {
+    z-index: 1;
     position: absolute;
-    top: 0px;
+    top: 5px;
     left: 5px;
 }
 .image:hover img {
@@ -31,4 +76,28 @@ p {
 }
 .image:hover .delete {
     visibility: visible;
+}
+.image:hover {
+    background-color: #ddd;
+}
+.image i {
+    font-size: 14px;
+}
+.image .size {
+    display: none;
+}
+.grid:hover .size {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 10px;
+    width: 80px;
+    text-align: center;
+}
+.list:hover .size {
+    display: block;
+    position: static;
+    line-height: 50px;
 }

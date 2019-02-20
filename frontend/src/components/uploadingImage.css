@@ -1,39 +1,33 @@
-.upload-image{
-    display: inline-block;
-    position: relative;
-    width: 100px;
-    padding: 4px;
-}
+
 p {
     width: 100px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-.upload-image img {
-    width: 100px;
-}
 .uploading {
     opacity: 0.5;
 }
 progress[value] {
-    position: absolute;
-    top: 30px;
-    left: 8px;
-    width: 90px;
-    height: 10px;
     -webkit-appearance: none;
     appearance: none;
 }
 progress::-webkit-progress-bar { background: rgb(102, 190, 245) }
 progress::-webkit-progress-value { background: rgb(3, 23, 241)}
-
+.grid progress[value] {
+    position: absolute;
+    top: 40px;
+    left: 8px;
+    width: 70px;
+    height: 10px;
+}
+.list progress[value] {
+    position: relative;
+    top: 50%;
+    width: 150px;
+    height: 10px;
+    transform: translateY(-50%); 
+}
 .upload-image i {
     font-size: 14px;
-}
-
-.delete {
-    position: absolute;
-    top: 0px;
-    right: 5px;
 }

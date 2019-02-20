@@ -7,16 +7,34 @@
 .right {
     float: right;
 }
+.center {
+    text-align: center
+}
 #drop-area {
+    overflow: auto;
     width: inherit;
     height: 400px;
     border: 2px dashed black;
+}
+.drag-over {
+    z-index: 1;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 200px;
+    background-color: rgb(62, 70, 159);
+    color: white;
+    text-align: center;
 }
 .p-8 {
     padding: 8px;
 }
 .m-8 {
     margin: 8px;
+}
+.m-4 {
+    margin: 4px;
 }
 .secondary-color {
     background-color: #ddd;
@@ -31,8 +49,8 @@
     font-size: 32px;
     cursor: pointer;
 }
-#drop-area {
-    text-align: center;
+.options {
+    height: 20px;
 }
 #fileElement {
     display: none;

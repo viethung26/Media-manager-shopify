@@ -1,0 +1,14 @@
+webpackHotUpdate("main",{
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./src/components/image.css":
+/*!************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./src/components/image.css ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ \"./node_modules/css-loader/dist/runtime/api.js\")(false);\n// Module\nexports.push([module.i, \".image{\\r\\n    position: relative;\\r\\n    padding: 4px;\\r\\n}\\r\\n.thumbnail {\\r\\n    position: relative;\\r\\n    border: 1px solid black;\\r\\n    width: 80px;\\r\\n    height: 80px;\\r\\n    overflow: hidden;\\r\\n}\\r\\n.thumbnail img {\\r\\n    position: absolute;\\r\\n    top: 50%;\\r\\n    left: 50%;\\r\\n    width: 80px;\\r\\n    height: auto;\\r\\n    transform: translate(-50%,-50%);\\r\\n}\\r\\n.grid {\\r\\n    display: inline-block;\\r\\n    width: 80px;\\r\\n}\\r\\n.list {\\r\\n    width: 99%;\\r\\n    height: 50px;\\r\\n    display: grid;\\r\\n    grid-template-columns: 60px 1fr 1fr;\\r\\n    grid-gap: 5px 5px;\\r\\n}\\r\\n.list .thumbnail {\\r\\n    height: 50px;\\r\\n    width: 50px;\\r\\n}\\r\\n.list img {\\r\\n    height: 50px;\\r\\n}\\r\\n.grid .title {\\r\\n    width: 80px;\\r\\n    overflow: hidden;\\r\\n    white-space: nowrap;\\r\\n    text-overflow: ellipsis;\\r\\n    text-align: center;\\r\\n}\\r\\n.list .title {\\r\\n    width: 100%;\\r\\n    line-height: 50px;\\r\\n}\\r\\n.image:hover .title{\\r\\n    color: blue;\\r\\n}\\r\\n.delete {\\r\\n    position: absolute;\\r\\n    top: 10px;\\r\\n    right: 10px;\\r\\n    visibility: hidden;\\r\\n    cursor: pointer;\\r\\n}\\r\\n.delete-files {\\r\\n    color: red;\\r\\n    border: 1px solid red;\\r\\n    background-color: white;\\r\\n    cursor: pointer;\\r\\n}\\r\\n.selected {\\r\\n    z-index: 1;\\r\\n    position: absolute;\\r\\n    top: 5px;\\r\\n    left: 5px;\\r\\n}\\r\\n.image:hover img {\\r\\n    opacity: 0.5;\\r\\n}\\r\\n.image:hover .delete {\\r\\n    visibility: visible;\\r\\n}\\r\\n.image:hover {\\r\\n    background-color: #ddd;\\r\\n}\\r\\n.image i {\\r\\n    font-size: 14px;\\r\\n}\\r\\n.image .size {\\r\\n    display: none;\\r\\n}\\r\\n.grid:hover .size {\\r\\n    display: block;\\r\\n    position: absolute;\\r\\n    top: 50%;\\r\\n    left: 5px;\\r\\n    transform: translateY(-50%);\\r\\n    font-size: 10px;\\r\\n    width: 80px;\\r\\n    text-align: center;\\r\\n}\\r\\n.list:hover .size {\\r\\n    display: block;\\r\\n    position: static;\\r\\n    line-height: 50px;\\r\\n}\", \"\"]);\n\n\n\n//# sourceURL=webpack:///./src/components/image.css?./node_modules/css-loader/dist/cjs.js");
+
+/***/ })
+
+})

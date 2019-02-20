@@ -7,12 +7,14 @@ export default class Uploading extends Component {
     }
     
     render() {
+        const {views} = this.props
         let uploading = this.props.value < 100 ? true : false
         return(
-            <div className="upload-image">
-                <img src={this.props.src} className={uploading ? "uploading" : ""}/>
-                {uploading ? <progress value={this.props.value} max="100" className="progress-bar"/> : ""}
-                <p>{uploading ?<i className="fas fa-spinner"> uploading...</i>: <i className="fas fa-check"> {this.props.title}</i> }</p>
+            <div className={`image ${views}`}>
+                <div className="thumbnail"><img src={this.props.src} className={"uploading"}/></div>
+                {/* <div className="thumbnail"><img src={this.props.src} className={uploading ? "uploading" : ""}/></div> */}
+                <div className="title"><i className="fas fa-spinner"> uploading...</i></div>
+                <progress value={this.props.value} max="100" className="progress-bar"/>
             </div>
         )
     }

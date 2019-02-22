@@ -35,23 +35,35 @@ class DropArea extends Component {
 		const rows = []
 		const {uploads, views} = this.props
 		if(uploads) uploads.forEach((image)=> {
-				rows.push(<Uploading key= {image.name} views={views} src={image.src} title={image.name} value={image.percentage}/>)
+				rows.push(
+				<Uploading 
+					key= {image.name} 
+					views={views} 
+					src={image.src} 
+					title={image.name} 
+					value={image.percentage}
+				/>)
 		})
 		return rows
 	}
 
 	render() {
-		const {assets, views} = this.props
+		const {assets} = this.props
+		const {isDragEnter} = this.state
 		return(
 			<div id="drop-area"
-				className={this.state.isDragEnter?"block-event":""} 
+				className={isDragEnter ? "block-event" : ""} 
 				onDragOver={e=>e.preventDefault()} 
 				onDrop={this.handleDrop} 
-				onDragLeave={()=>{this.setState({isDragEnter: false}); }} 
-				onDragEnter={()=>{this.setState({isDragEnter: true}); }}
+				onDragLeave={e=>this.setState({isDragEnter: false})} 
+				onDragEnter={e=>this.setState({isDragEnter: true})}
 			>
-				{this.state.isDragEnter ? <div className="drag-over p-8">Drop files to upload</div> : null }
-				{assets.length!==0?null: <label id="upload" className="center" htmlFor="fileElement"><i className="fas fa-upload"></i><br/>Drag and Drop or click here to upload</label>}
+				{isDragEnter ? <div className="drag-over p-8">Drop files to upload</div> : null }
+				{assets.length!==0 ? null : 
+					<label id="upload" className="center" htmlFor="fileElement">
+						<i className="fas fa-upload"></i><br/>Drag and Drop or click here to upload
+					</label>
+				}
 				{this.renderImage()}
 				{this.renderUploading()}
 			</div>

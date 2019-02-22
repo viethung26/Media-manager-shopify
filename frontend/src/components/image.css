@@ -10,12 +10,12 @@
     width: 99%;
     height: 50px;
     display: grid;
-    grid-template-columns: 60px 1fr 1fr;
+    grid-template-columns: 60px 400px 1fr;
     grid-gap: 5px 5px;
 }
 .image .thumbnail {
     position: relative;
-    border: 1px solid black;
+    border: 1px dotted #888;
     width: 80px;
     height: 80px;
     overflow: hidden;
@@ -48,7 +48,7 @@
 .grid .title {
     width: 80px;
     font-size: 12px;
-    overflow: hidden;
+    overflow-x: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     text-align: center;
@@ -56,6 +56,9 @@
 .list .title {
     width: 100%;
     font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     line-height: 50px;
 }
 .image:hover .title{
@@ -109,5 +112,20 @@
     line-height: 50px;
 }
 .block-event .image {
+    pointer-events: none;
+}
+.deleting-spiner {
+    display: none;
+    position: absolute;
+    top: 40%;
+    left: 40%;
+}
+.deleting img {
+    opacity: 0.3;
+}
+.deleting .deleting-spiner {
+    display: block;
+}
+.deleting {
     pointer-events: none;
 }

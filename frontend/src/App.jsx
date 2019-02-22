@@ -17,6 +17,7 @@ class App extends Component {
 			}
         }
         this.handleFile = this.handleFile.bind(this) 
+        this.handleProgress = this.handleProgress.bind(this)
         this.handleDrop = this.handleDrop.bind(this) 
         this.handleSelect = this.handleSelect.bind(this)
 		this.handleDelete = this.handleDelete.bind(this)
@@ -28,7 +29,10 @@ class App extends Component {
         const shop = localStorage.getItem('shop')
         if(shop) {
             const regex = /^image\/(?!svg).*$/
-            fetch(`/images?shop=${shop}`).then(response=> response.json()).then(data=> {
+            fetch('/images', {
+                method: 'GET',
+                headers: {shop},
+            }).then(response=> response.json()).then(data=> {
                 data = data.assets.filter(val=> regex.test(val.content_type))
                 this.setState({assets: data})
             })
@@ -48,7 +52,7 @@ class App extends Component {
     handleProgress(name, percentage) {
         const {uploads} = this.state
         const index = uploads.findIndex(file=> file.name === name)
-        uploads[index].percentage = percentage
+        if(index!==-1) uploads[index].percentage = percentage
         this.setState({uploads})
     }
     handleFile(e) {
@@ -66,11 +70,12 @@ class App extends Component {
     uploadFile(file) {
         this.previewFile(file)
         const shop = localStorage.getItem('shop')
-        let url = '/images?shop='+shop
+        let url = '/images'
         let formData = new FormData()
         formData.append('file', file)
         const xhr = new XMLHttpRequest()
         xhr.open('POST', url, true)
+        xhr.setRequestHeader('shop', shop)
         xhr.upload.addEventListener("progress", e => {
             if(e.lengthComputable) {
                 const percentage = Math.round((e.loaded*100)/e.total)
@@ -101,27 +106,33 @@ class App extends Component {
         this.setState({assets})
     }
     handleDelete(key) {
-        const shop = localStorage.getItem('shop')
-        let url = `/images?shop=${shop}&key=${key}`
-        fetch(url, {
-            method: 'DELETE',
-        }).then(res=>res.json()).then(res=>{
-            if(res) {
-                const {assets} = this.state
-                const index = assets.findIndex(file=>file.key ===key)
-                if(index!==-1) {
-                    assets.splice(index, 1)
-
+        let {assets} = this.state
+        let index = assets.findIndex(file=>file.key ===key)
+        if(index!==-1) {
+            assets[index].isDeleting = true
+            this.setState({assets})
+            const shop = localStorage.getItem('shop')
+            let url = `/images?key=${key}`
+            fetch(url, {
+                method: 'DELETE',
+                headers: {shop}
+            }).then(res=>res.json()).then(res=>{
+                if(res) {
+                    assets = this.state.assets
+                    index = assets.findIndex(file=>file.key ===key)
+                    if(index!==-1) assets.splice(index, 1)
+                    this.setState({assets})
                 }
-                this.setState(assets)
-            }
-        }).catch(e=>console.log(e))
+            }).catch(e=>console.log(e))
+        }
     }
     handleDeleteSelect() {
 		const {assets} = this.state
 		assets.forEach(asset=> {
-			if(asset.isSelected) this.handleDelete(asset.key)
-		})
+			if(asset.isSelected) {
+                this.handleDelete(asset.key)
+            }
+        })
 	}
 	handleViews(views) {
 		this.setState({views})
@@ -155,10 +166,10 @@ class App extends Component {
 						onSort={this.handleSort}
 						onChange={this.handleViews}
 						onDeleteSelect={this.handleDeleteSelect}
-						isSelecting={selectCount>0?true:false}
+						isSelecting={selectCount>0 ? true : false}
 					/>
 					<form>
-							<input type="file" id="fileElement" accept="image/*" multiple onChange={this.handleFile}/>
+						<input type="file" id="fileElement" accept="image/*" multiple onChange={this.handleFile}/>
 					</form>
 					<DropArea 
 						assets={assets}

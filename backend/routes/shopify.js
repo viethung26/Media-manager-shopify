@@ -12,8 +12,6 @@ const apiSecret = process.env.SHOPIFY_API_SECRET
 
 const forwardingAddress = process.env.SERVER_ADDRESS
 
-const User = require('mongoose').model('users')
-
 router.get('/', (req, res) => {
     const shop = req.query.shop
     if (shop) {
@@ -67,7 +65,7 @@ router.get('/callback', (req, res)=> {
         request.post(accessTokenRequestUrl, {json: accessTokenPayload}).then(accessTokenResponse=> {
             const accessToken = accessTokenResponse.access_token
             const themesRequestUrl = 'https://' + shop + '/admin/themes.json'
-            let themeId = ''
+            let themeID = ''
             const options = {
                 method: 'GET',
                 uri: themesRequestUrl,
@@ -79,23 +77,11 @@ router.get('/callback', (req, res)=> {
                 }
             }
             request.get(options).then(response=> {
-                themeId=response.body.themes[0].id
-                User.findOne({shop}).then(doc=>{
-                    if(doc) {
-                        doc.token = accessToken
-                        doc.themeId = themeId
-                        doc.save()
-                    } else {
-                        User.create({shop, token: accessToken, themeId}).then(response=> {
-                            console.log(response)
-                        })
-                    }
-                }).catch(e=> {
-                    return res.status(e.statusCode).send('error')
-                })
+                const themes = response.body.themes
+                const index = themes.findIndex(theme=> theme.role === 'main')
+                themeID = themes[index].id
+                res.render('index', {shop, token: accessToken, themeID})
             })
-            
-            res.render('index', {shop, token: accessToken, themeId})
         }).catch((error) => {
             console.log(error.error)
             res.status(error.statusCode).send('error');

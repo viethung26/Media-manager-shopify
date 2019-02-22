@@ -14,6 +14,14 @@
     <script>
         localStorage.setItem('shop', '{{shop}}')
         localStorage.setItem('token', '{{token}}')
+        document.body.addEventListener('dragover', e=> {
+            e = e||event
+            e.preventDefault()
+        }, false)
+        document.body.addEventListener('drop', e=> {
+            e = e||event
+            e.preventDefault()
+        }, false)
     </script>
     <script src="./js/bundle.js"></script>
 </body>

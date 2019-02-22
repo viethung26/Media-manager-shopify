@@ -17,6 +17,7 @@ class ViewOptions extends Component {
     }
     render() {
         const {views, isSelecting} = this.props
+        const isGrid = views.type === 'grid'
         return (
             <div className="view-options secondary-color p-8">
                 <div className="search-bar">
@@ -33,8 +34,8 @@ class ViewOptions extends Component {
                 </div>
                 <div>
                     <label>View options </label>
-                    <i className="fas fa-th-large" onClick={()=>this.handleTypeChange('grid')}></i>&nbsp;
-                    <i className="fas fa-th-list" onClick={()=>this.handleTypeChange('list')}></i>
+                    <i className="fas fa-th-large" onClick={()=>this.handleTypeChange('grid')} disabled={isGrid}></i>&nbsp;
+                    <i className="fas fa-th-list" onClick={()=>this.handleTypeChange('list')} disabled={!isGrid}></i>
                 </div>                    
             </div>
         )

@@ -6,33 +6,26 @@ const fileUpload = require('express-fileupload')
 
 router.use(fileUpload())
 router.get('/', (req, res)=> {
-    const {shop} = req.query
-    let accessToken = null
-    if(shop) {
-        User.findOne({shop}).then(doc=> {
-            accessToken = doc.token
-            let themeId = doc.themeId
-            if(!accessToken) return res.status(403).send("Request need authorization")
-            const url = `https://${shop}/admin/themes/${themeId}/assets.json`
-            const options = {
-                uri: url,
-                headers: {
-                    'X-Shopify-Access-Token': accessToken, 
-                    'content-type': 'application/json'
-                }
+    const {name, themeID, token} = JSON.parse(req.headers.shop)
+    const shop = name
+    if(shop && themeID && token) {
+        const url = `https://${shop}/admin/themes/${themeID}/assets.json`
+        const options = {
+            uri: url,
+            headers: {
+                'X-Shopify-Access-Token': token, 
+                'content-type': 'application/json'
             }
-            request.get(options).then(response=> {
-                res.status(200).send(response)
-            })
+        }
+        request.get(options).then(response=> {
+            res.status(200).send(response)
         })
-    } else res.json(false)
-    
-
+    } else return res.status(403).send("Request need authorization")
 })
 
 router.post('/', (req, res)=> {
-    const {shop} = req.query
-    // return res.json(true)
+    const {name, themeID, token} = JSON.parse(req.headers.shop)
+    const shop = name
     let data = Buffer.from(req.files.file.data).toString('base64')
     let new_asset = {
         asset: {
@@ -41,16 +34,15 @@ router.post('/', (req, res)=> {
             attachment: data
         }
     }
-    if(shop) User.findOne({shop}).then(doc=> { 
-        let themeId = doc.themeId
-        const requestUrl = `https://${shop}/admin/themes/${themeId}/assets.json`
+    if(shop && themeID && token) {
+        const requestUrl = `https://${shop}/admin/themes/${themeID}/assets.json`
         const options = {
             method: 'PUT',
             uri: requestUrl,
             json: true,
             resolveWithFullResponse: true,
             headers: {
-                'X-Shopify-Access-Token': doc.token, 
+                'X-Shopify-Access-Token': token, 
                 'content-type': 'application/json'
             },
             body: new_asset           
@@ -63,14 +55,14 @@ router.post('/', (req, res)=> {
             console.log(error.error)
             res.status(error.statusCode).send('error');
         })
-    })
-    
+    } else return res.status(403).send("Request need authorization")
 })
 
 router.delete('/', (req, res)=> {
-    const {shop, key} = req.query
-    // return res.json(true)
-    if(shop && key) User.findOne({shop}).then(doc=> { 
+    const {name, themeID, token} = JSON.parse(req.headers.shop)
+    const shop = name
+    const {key} = req.query
+    if(shop && themeID && token && key) {
         const requestUrl = `https://${shop}/admin/themes/${themeID}/assets.json?asset[key]=${key}`
         const options = {
             method: 'DELETE',
@@ -78,7 +70,7 @@ router.delete('/', (req, res)=> {
             json: true,
             resolveWithFullResponse: true,
             headers: {
-                'X-Shopify-Access-Token': doc.token, 
+                'X-Shopify-Access-Token': token, 
                 'content-type': 'application/json'
             }
         }
@@ -87,8 +79,8 @@ router.delete('/', (req, res)=> {
             res.json(true)
         }).catch((error) => {
             console.log(error)
-            res.status(error.statusCode).send('error');
+            res.status(error.statusCode).json(false);
         })
-    })
+    } else return res.status(403).send("Request need authorization")
 })
 module.exports = router

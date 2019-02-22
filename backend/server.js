@@ -6,7 +6,10 @@ const mongoose = require('mongoose')
 const MONGO_DB_USER = process.env.MONGO_DB_USER
 const MONGO_DB_PASSWORD = process.env.MONGO_DB_PASSWORD
 const path = require('path')
+const bodyParser = require('body-parser')
 
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
 mongoose.set('useCreateIndex', true)
 mongoose.connect('mongodb://ds163014.mlab.com:63014/media-manager' ,{auth: {
     user: MONGO_DB_USER,

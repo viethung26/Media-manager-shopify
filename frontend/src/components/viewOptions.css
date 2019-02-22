@@ -2,11 +2,14 @@
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
 }
+.view-options label, .view-options select{
+    margin: 5px 0px;
+}
 .view-options i {
-    font-size: 24px;
+    font-size: 26px;
     position: relative;
     top: 50%;
-    transform: translateY(-50%)
+    transform: translateY(-14px)
 }
 .view-options .search-bar {
     position: relative;
@@ -23,4 +26,8 @@
 .view-options .search-bar input {
     padding-left: 24px;
     width: calc(100% - 35px);
+}
+.view-options i[disabled] {
+    opacity: 0.1;
+    pointer-events: none;
 }

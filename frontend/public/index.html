@@ -4,12 +4,17 @@
     <meta charset="utf-8">
     <title>Media Manager</title>
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+    <link href="https://fonts.googleapis.com/css?family=Laila" rel="stylesheet">
 </head>
 <body>
     <div id="root"></div>   
     <noscript>
             Not support script
     </noscript>
-    <script src="js/bundle.js"></script>
+    <script>
+        localStorage.setItem('shop', '{{shop}}')
+        localStorage.setItem('token', '{{token}}')
+    </script>
+    <script src="./js/bundle.js"></script>
 </body>
 </html>

@@ -11,12 +11,10 @@ const apiKey = process.env.SHOPIFY_API_KEY
 const apiSecret = process.env.SHOPIFY_API_SECRET
 
 const forwardingAddress = process.env.SERVER_ADDRESS
-const path = require('path')
 
 const User = require('mongoose').model('users')
 
 router.get('/', (req, res) => {
-    console.log('shopify')
     const shop = req.query.shop
     if (shop) {
         const state = nonce();
@@ -33,8 +31,6 @@ router.get('/', (req, res) => {
   })
 
 router.get('/callback', (req, res)=> {
-    console.log("callback")
-
     const {shop, hmac, code, state} = req.query
     const stateCookie = cookie.parse(req.headers.cookie).state
       
@@ -70,40 +66,36 @@ router.get('/callback', (req, res)=> {
         }
         request.post(accessTokenRequestUrl, {json: accessTokenPayload}).then(accessTokenResponse=> {
             const accessToken = accessTokenResponse.access_token
-            User.create({shop, token: accessToken}).then(response=> {
-                console.log(response)
-            }).catch(e=> {
-                console.log(e)
+            const themesRequestUrl = 'https://' + shop + '/admin/themes.json'
+            let themeId = ''
+            const options = {
+                method: 'GET',
+                uri: themesRequestUrl,
+                json: true,
+                resolveWithFullResponse: true,
+                headers: {
+                    'X-Shopify-Access-Token': accessToken, 
+                    'content-type': 'application/json'
+                }
+            }
+            request.get(options).then(response=> {
+                themeId=response.body.themes[0].id
+                User.findOne({shop}).then(doc=>{
+                    if(doc) {
+                        doc.token = accessToken
+                        doc.themeId = themeId
+                        doc.save()
+                    } else {
+                        User.create({shop, token: accessToken, themeId}).then(response=> {
+                            console.log(response)
+                        })
+                    }
+                }).catch(e=> {
+                    return res.status(e.statusCode).send('error')
+                })
             })
-            res.render('index', {shop, token: accessToken})
-            // res.status(200).sendFile(path.join(__dirname, "../public/index.html"))
-            // let new_asset = {
-            //     asset: {
-            //         key: "assets/example.jpg",
-            //         src: "https://agilepainrelief.com/wp-content/uploads/2011/07/photodune-9297562-example-stamp-xs.jpg"
-            //     }
-            // }
-            // const requestUrl = 'https://' + shop + '/admin/themes/70634537024/assets.json'
-            // const options = {
-            //     method: 'PUT',
-            //     uri: requestUrl,
-            //     json: true,
-            //     resolveWithFullResponse: true,
-            //     headers: {
-            //         'X-Shopify-Access-Token': accessToken, 
-            //         'content-type': 'application/json'
-            //     },
-            //     body: new_asset           
-            // }
-            // request.put(options)
-            // .then(response=> {
-            //     // const themes = JSON.parse(response)
-            //     console.log(response)
-            //     res.json(true)
-            // }).catch((error) => {
-            //     console.log(error.error)
-            //     res.status(error.statusCode).send('error');
-            //   })
+            
+            res.render('index', {shop, token: accessToken, themeId})
         }).catch((error) => {
             console.log(error.error)
             res.status(error.statusCode).send('error');

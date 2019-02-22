@@ -1,21 +1,6 @@
-.image{
+.image {
     position: relative;
     padding: 4px;
-}
-.thumbnail {
-    position: relative;
-    border: 1px solid black;
-    width: 80px;
-    height: 80px;
-    overflow: hidden;
-}
-.thumbnail img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 80px;
-    height: auto;
-    transform: translate(-50%,-50%);
 }
 .grid {
     display: inline-block;
@@ -28,6 +13,22 @@
     grid-template-columns: 60px 1fr 1fr;
     grid-gap: 5px 5px;
 }
+.image .thumbnail {
+    position: relative;
+    border: 1px solid black;
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+}
+.image .thumbnail img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: auto;
+    transform: translate(-50%,-50%);
+}
+
 .list .thumbnail {
     height: 50px;
     width: 50px;
@@ -38,8 +39,15 @@
 .title {
     font-weight: bold;
 }
+.grid i {
+    font-size: 12px;
+}
+.list i {
+    font-size: 14px;
+}
 .grid .title {
     width: 80px;
+    font-size: 12px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -47,6 +55,7 @@
 }
 .list .title {
     width: 100%;
+    font-size: 14px;
     line-height: 50px;
 }
 .image:hover .title{
@@ -80,9 +89,7 @@
 .image:hover {
     background-color: #ddd;
 }
-.image i {
-    font-size: 14px;
-}
+
 .image .size {
     display: none;
 }
@@ -100,4 +107,7 @@
     display: block;
     position: static;
     line-height: 50px;
+}
+.block-event .image {
+    pointer-events: none;
 }

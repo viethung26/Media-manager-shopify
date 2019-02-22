@@ -1,10 +1,3 @@
-
-p {
-    width: 100px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
 .uploading {
     opacity: 0.5;
 }
@@ -27,7 +20,4 @@ progress::-webkit-progress-value { background: rgb(3, 23, 241)}
     width: 150px;
     height: 10px;
     transform: translateY(-50%); 
-}
-.upload-image i {
-    font-size: 14px;
 }

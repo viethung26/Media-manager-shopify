@@ -19,5 +19,5 @@ app.set('views', path.join(__dirname, 'views') )
 app.use(require('./routes'))
 app.use('/shopify', express.static('./public'))
 app.listen(PORT, () => {
-    console.log('Example app listening on port 3000!');
+    console.log('App is running on port 3000...');
 })

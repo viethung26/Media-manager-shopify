@@ -1,3 +1,4 @@
+// const themeId = process.env.SHOPIFY_THEME_ID
 const router = require('express').Router()
 const User = require('mongoose').model('users')
 const request = require('request-promise')
@@ -10,8 +11,9 @@ router.get('/', (req, res)=> {
     if(shop) {
         User.findOne({shop}).then(doc=> {
             accessToken = doc.token
+            let themeId = doc.themeId
             if(!accessToken) return res.status(403).send("Request need authorization")
-            const url = 'https://' + shop + '/admin/themes/70634537024/assets.json'
+            const url = `https://${shop}/admin/themes/${themeId}/assets.json`
             const options = {
                 uri: url,
                 headers: {
@@ -35,11 +37,13 @@ router.post('/', (req, res)=> {
     let new_asset = {
         asset: {
             key: "assets/"+req.files.file.name,
+            // key: "assets/"+ new Date().getTime() +req.files.file.name,
             attachment: data
         }
     }
     if(shop) User.findOne({shop}).then(doc=> { 
-        const requestUrl = 'https://' + shop + '/admin/themes/70634537024/assets.json'
+        let themeId = doc.themeId
+        const requestUrl = `https://${shop}/admin/themes/${themeId}/assets.json`
         const options = {
             method: 'PUT',
             uri: requestUrl,
@@ -67,7 +71,7 @@ router.delete('/', (req, res)=> {
     const {shop, key} = req.query
     // return res.json(true)
     if(shop && key) User.findOne({shop}).then(doc=> { 
-        const requestUrl = 'https://' + shop + '/admin/themes/70634537024/assets.json?asset[key]='+key
+        const requestUrl = `https://${shop}/admin/themes/${themeID}/assets.json?asset[key]=${key}`
         const options = {
             method: 'DELETE',
             uri: requestUrl,
@@ -82,7 +86,7 @@ router.delete('/', (req, res)=> {
         .then(response=> {
             res.json(true)
         }).catch((error) => {
-            console.log(error.error)
+            console.log(error)
             res.status(error.statusCode).send('error');
         })
     })

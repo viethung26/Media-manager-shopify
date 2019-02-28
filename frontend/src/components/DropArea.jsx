@@ -52,7 +52,7 @@ class DropArea extends Component {
 		const {isDragEnter} = this.state
 		return(
 			<div id="drop-area"
-				className={isDragEnter ? "block-event" : ""} 
+				className={isDragEnter ? "block-event green-bg" : ""} 
 				onDragOver={e=>e.preventDefault()} 
 				onDrop={this.handleDrop} 
 				onDragLeave={e=>this.setState({isDragEnter: false})} 

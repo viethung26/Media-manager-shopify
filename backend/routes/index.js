@@ -1,8 +1,7 @@
 const router = require('express').Router()
-const User = require('mongoose').model('users')
 
 router.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.render('home')
 })
 
 router.use('/shopify', require('./shopify'))

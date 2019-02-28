@@ -1,6 +1,5 @@
 // const themeId = process.env.SHOPIFY_THEME_ID
 const router = require('express').Router()
-const User = require('mongoose').model('users')
 const request = require('request-promise')
 const fileUpload = require('express-fileupload')
 

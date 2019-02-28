@@ -12,7 +12,7 @@ function Image(props) {
                 <img src={image.public_url}/>
                 <i className="fas fa-sync-alt fa-spin deleting-spiner"/>
             </div>
-            <i className="fas fa-trash-alt delete" onClick={()=>props.delete(image.key)}></i>
+            <i className="fas fa-trash-alt delete" onClick={(e)=>{e.stopPropagation(); props.delete(image.key)}}></i>
             <div className="title">{image.isNew ? <span><i className="fas fa-check"/> {name}</span> : name}</div>
             <div className="size">File size: {image.size} KB</div>
         </div>

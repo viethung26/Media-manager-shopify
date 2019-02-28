@@ -129,3 +129,6 @@
 .deleting {
     pointer-events: none;
 }
+.green-bg {
+    background: rgb(179, 179, 231);
+}
